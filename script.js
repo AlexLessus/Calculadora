@@ -1,6 +1,6 @@
 const screen = document.getElementById('screen');
 
-const allowedKeys = '0123456789+-*/().,ab';
+const allowedKeys = '0123456789+-*/().,ab=';
 
 document.addEventListener('keydown', (event) => {
     if (event.ctrlKey || event.metaKey || event.altKey) return;
