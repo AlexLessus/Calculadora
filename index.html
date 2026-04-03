@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Pro - TecNM</title>
+    <title>Calculadora</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,14 +31,17 @@
             <button onclick="appendValue('1')">1</button>
             <button onclick="appendValue('2')">2</button>
             <button onclick="appendValue('3')">3</button>
-            <button onclick="calculate()" id="calculate">=</button>
+            <button onclick="calculate()">=</button>
 
             <button onclick="appendValue('0')">0</button>
             <button onclick="calcSqrt()">√</button>
-            <button onclick="appendValue('**')">^</button>
+            <button onclick="appendValue('^')">^</button>
             <button onclick="solveEquation()">Eqn</button>
+
+            <button onclick="showEquationExample()" class="btn-example">Ejemplo Eqn</button>
         </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.2/math.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
