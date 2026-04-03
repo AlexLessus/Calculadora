@@ -1,6 +1,6 @@
 const screen = document.getElementById('screen');
 
-const allowedKeys = '0123456789+-*/().,ab';
+const allowedKeys = '0123456789+-*/().,^x';
 
 document.addEventListener('keydown', (event) => {
     if (event.ctrlKey || event.metaKey || event.altKey) return;
@@ -8,6 +8,12 @@ document.addEventListener('keydown', (event) => {
     const key = event.key;
 
     if (key === 'Enter') {
+        event.preventDefault();
+        calculate();
+        return;
+    }
+
+    if (key === '=') {
         event.preventDefault();
         calculate();
         return;
@@ -27,7 +33,7 @@ document.addEventListener('keydown', (event) => {
 
     if (key === '^') {
         event.preventDefault();
-        appendValue('**');
+        appendValue('^');
         return;
     }
 
@@ -53,10 +59,12 @@ function deleteLast() {
 // Función principal de cálculo (Suma, Resta, Mult, Div, Potencia)
 function calculate() {
     try {
-        const expression = screen.value.replace(/\^/g, '**');
-        // eval() es práctico para prototipos, pero en producción 
-        // usaremos parsers más seguros para evitar inyecciones.
-        screen.value = eval(expression);
+        if (typeof math === 'undefined') {
+            alert('math.js no está cargado');
+            return;
+        }
+
+        screen.value = math.evaluate(screen.value);
     } catch (error) {
         alert("Expresión inválida");
         clearScreen();
@@ -65,11 +73,16 @@ function calculate() {
 
 // Raíz Cuadrada
 function calcSqrt() {
-    const val = parseFloat(screen.value);
+    if (typeof math === 'undefined') {
+        alert('math.js no está cargado');
+        return;
+    }
+
+    const val = math.evaluate(screen.value);
     if (val < 0) {
         alert("Error: Raíz de número negativo");
     } else {
-        screen.value = Math.sqrt(val);
+        screen.value = math.sqrt(val);
     }
 }
 
@@ -90,4 +103,9 @@ function solveEquation() {
         const x = -b / a;
         screen.value = `x = ${x}`;
     }
+}
+
+function showEquationExample() {
+    screen.value = '2,-8';
+    alert("Ejemplo cargado: 2,-8\nAhora presiona 'Eqn' para resolver 2x-8=0");
 }
