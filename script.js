@@ -1,5 +1,42 @@
 const screen = document.getElementById('screen');
 
+const allowedKeys = '0123456789+-*/().,ab';
+
+document.addEventListener('keydown', (event) => {
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+    const key = event.key;
+
+    if (key === 'Enter') {
+        event.preventDefault();
+        calculate();
+        return;
+    }
+
+    if (key === 'Backspace') {
+        event.preventDefault();
+        deleteLast();
+        return;
+    }
+
+    if (key === 'Escape' || key === 'Delete') {
+        event.preventDefault();
+        clearScreen();
+        return;
+    }
+
+    if (key === '^') {
+        event.preventDefault();
+        appendValue('**');
+        return;
+    }
+
+    if (allowedKeys.includes(key)) {
+        event.preventDefault();
+        appendValue(key);
+    }
+});
+
 // Función para añadir valores a la pantalla
 function appendValue(value) {
     screen.value += value;
@@ -16,9 +53,10 @@ function deleteLast() {
 // Función principal de cálculo (Suma, Resta, Mult, Div, Potencia)
 function calculate() {
     try {
+        const expression = screen.value.replace(/\^/g, '**');
         // eval() es práctico para prototipos, pero en producción 
         // usaremos parsers más seguros para evitar inyecciones.
-        screen.value = eval(screen.value);
+        screen.value = eval(expression);
     } catch (error) {
         alert("Expresión inválida");
         clearScreen();
